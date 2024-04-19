@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, Signal, WritableSignal, computed, effect, inject, input, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, Signal, WritableSignal, computed, effect, inject, input, signal, viewChild } from '@angular/core';
 import { CellService } from '../../_services/cell.service';
 import { FormsModule } from '@angular/forms';
 import { Address } from '../../_interfaces/address';
+import { ContextMenuModule } from '../context-menu/context-menu.module';
 
 @Component({
   selector: 'app-cell',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ContextMenuModule],
   templateUrl: './cell.component.html',
   styleUrl: './cell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

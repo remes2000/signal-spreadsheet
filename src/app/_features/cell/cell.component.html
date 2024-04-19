@@ -1,6 +1,7 @@
 <input
   #cellInput
   [class.selected]="isSelected()"
+  [contextMenu]="contextMenu"
   [ngModel]="content()"
   (ngModelChange)="setFormula($event)"
   (focus)="markAsSelected()"
@@ -10,3 +11,20 @@
   (keydown.arrowleft)="navigate('left')"
   (keydown.arrowright)="navigate('right')"
 />
+
+<ng-template #contextMenu>
+  <h1>Hello World</h1>
+</ng-template>
+
+<!-- <ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="contextMenuTrigger"
+  [cdkConnectedOverlayOpen]="isOpenContextMenu()"
+>
+  <ul>
+    <li>Insert row above</li>
+    <li>Insert column on the left</li>
+    <li>Delete row</li>
+    <li>Delete column</li>
+  </ul>
+</ng-template> -->
