@@ -1,0 +1,12 @@
+<input
+  #cellInput
+  [class.selected]="isSelected()"
+  [ngModel]="content()"
+  (ngModelChange)="setFormula($event)"
+  (focus)="markAsSelected()"
+  (keydown.enter)="apply()"
+  (keydown.arrowup)="navigate('up')"
+  (keydown.arrowdown)="navigate('down')"
+  (keydown.arrowleft)="navigate('left')"
+  (keydown.arrowright)="navigate('right')"
+/>

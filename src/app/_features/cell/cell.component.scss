@@ -1,0 +1,14 @@
+input {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid black;
+
+  &.selected {
+    background-color: aliceblue;
+    border: 1px solid blue;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

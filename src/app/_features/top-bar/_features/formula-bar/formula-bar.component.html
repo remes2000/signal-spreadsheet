@@ -1,0 +1,7 @@
+<input
+  #formulaInput
+  type="text" 
+  [ngModel]="formula()" 
+  (ngModelChange)="setFormula($event)" 
+  (keydown.enter)="apply()" 
+/>
