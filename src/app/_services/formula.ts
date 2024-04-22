@@ -1,24 +1,32 @@
-import { Signal } from '@angular/core';
+import { CellMapEntry } from '../_interfaces';
 
 export class Formula {
   private readonly cellAddressRegExp = new RegExp('[A-Z]+[0-9]+', 'g');
 
-  constructor(
-    private readonly formula: string,
-    private readonly cellValueMap: Map<string, Signal<unknown>>
-  ) {}
+  constructor(private readonly formula: string,) {}
 
-  execute() {
+  execute(cellValueMap: Map<string, CellMapEntry>) {
+    if (!this.formula.startsWith('=')) {
+      return +this.formula;
+    }
+
+    const formula = this.formula.slice(1);
     let script = '';
     let previousMatch = {
       0: '',
       index: 0,
     };
-    for (const match of this.formula.matchAll(this.cellAddressRegExp)) {
-      script += this.formula.slice(previousMatch.index + previousMatch[0].length, match.index) + this.cellValueMap.get(match[0])();
+    for (const match of formula.matchAll(this.cellAddressRegExp)) {
+      script += formula.slice(previousMatch.index + previousMatch[0].length, match.index) + cellValueMap.get(match[0]).value();
       previousMatch = { 0: match[0], index: match.index };
     }
-    console.log('script', script);
     return eval(script);
+  }
+
+  getReferences(): string[] {
+    if (!this.formula.startsWith('=')) {
+      return [];
+    }
+    return [...this.formula.matchAll(this.cellAddressRegExp)].map((match) => match[0]);
   }
 }

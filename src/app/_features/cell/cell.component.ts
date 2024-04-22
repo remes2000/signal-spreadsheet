@@ -3,11 +3,12 @@ import { CellService } from '../../_services/cell.service';
 import { FormsModule } from '@angular/forms';
 import { Address } from '../../_interfaces/address';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
+import { CellContextMenuComponent } from './cell-context-menu/cell-context-menu.component';
 
 @Component({
   selector: 'app-cell',
   standalone: true,
-  imports: [FormsModule, ContextMenuModule],
+  imports: [FormsModule, ContextMenuModule, CellContextMenuComponent],
   templateUrl: './cell.component.html',
   styleUrl: './cell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -16,6 +17,7 @@ export class CellComponent implements OnInit {
   private readonly cellService = inject(CellService);
   readonly address = input.required<string>();
   readonly isSelected = computed(() => this.address() === this.cellService.selectedCell());
+  readonly isMentioned = computed(() => this.cellService.mentionedCells().includes(this.address()));
   readonly cellInput = viewChild<ElementRef>('cellInput');
   readonly focusEffect = effect(() => {
     if (this.cellService.selectedCell() === this.address()) {
@@ -41,7 +43,7 @@ export class CellComponent implements OnInit {
   }
 
   apply() {
-    this.cellService.clearSelectedCell();
+    this.cellService.unselect();
     this.cellInput().nativeElement.blur();
   }
 

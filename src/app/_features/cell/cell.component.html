@@ -1,6 +1,7 @@
 <input
   #cellInput
   [class.selected]="isSelected()"
+  [class.mentioned]="isMentioned()"
   [contextMenu]="contextMenu"
   [ngModel]="content()"
   (ngModelChange)="setFormula($event)"
@@ -13,18 +14,5 @@
 />
 
 <ng-template #contextMenu>
-  <h1>Hello World</h1>
+  <app-cell-context-menu [address]="address()" />
 </ng-template>
-
-<!-- <ng-template
-  cdkConnectedOverlay
-  [cdkConnectedOverlayOrigin]="contextMenuTrigger"
-  [cdkConnectedOverlayOpen]="isOpenContextMenu()"
->
-  <ul>
-    <li>Insert row above</li>
-    <li>Insert column on the left</li>
-    <li>Delete row</li>
-    <li>Delete column</li>
-  </ul>
-</ng-template> -->

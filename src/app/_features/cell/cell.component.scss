@@ -8,6 +8,12 @@ input {
     border: 1px solid blue;
   }
 
+  &.mentioned {
+    background-color: green;
+    border: 1px solid yellowgreen;
+    color: white;
+  }
+
   &:focus {
     outline: none;
   }

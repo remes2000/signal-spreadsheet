@@ -19,6 +19,7 @@ export class FormulaBarComponent {
       ? this.cellService.getFormulaSignal(selectedCell)()
       : '';
   });
+  readonly mentionedCells = this.cellService.mentionedCells;
 
   setFormula(value: string) {
     const selectedCell = this.cellService.selectedCell();
@@ -29,7 +30,7 @@ export class FormulaBarComponent {
   }
 
   apply() {
-    this.cellService.clearSelectedCell();
+    this.cellService.unselect();
     this.formulaInput().nativeElement.blur();
   }
 }
