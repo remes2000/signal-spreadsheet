@@ -28,4 +28,14 @@ export class Address {
 
     return `${new Column(column).getNext()}${row}`;
   }
+
+  move([top, left]: number[]): string {
+    const currentColumnNumber = new Column(this.getColumn()).getNumber();
+    const currentRowNumber = this.getRow();
+
+    const columnNumber = currentColumnNumber + left;
+    const rowNumber = currentRowNumber + top;
+
+    return `${new Column(columnNumber).getAlias()}${rowNumber}`;
+  }
 }

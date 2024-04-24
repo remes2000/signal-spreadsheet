@@ -22,6 +22,8 @@ export class CellService {
     : []
   );
 
+  // todo: this map should be signal as well
+  // this can change while removing/adding rows/columns
   private cellSignalMap: Map<string, CellMapEntry> = new Map<string, CellMapEntry>(
     this.columns().flatMap((columnAlias) =>
       this.rows().map((rowNumber) => {
@@ -55,11 +57,31 @@ export class CellService {
   }
 
   deleteRow(rowNumber: number) {
-    // todo: start here, recheck this line, replace deleted references with #ref
-    const directlyAffected = [...this.cellSignalMap.entries()].filter(([_, { references }]) => {
-      const referencedRows = references().map((cell) => new Address(cell).getRow());
-      return referencedRows.includes(rowNumber);
+    // synchronize cellSignalMap
+    const entriesToRemove = [...this.cellSignalMap.entries()].filter(([address]) => 
+      new Address(address).getRow() === rowNumber
+    );
+    const entriesToMove = [...this.cellSignalMap.entries()].filter(([address]) => 
+      new Address(address).getRow() > rowNumber
+    );
+    [...entriesToMove, ...entriesToRemove].forEach(([address]) => this.cellSignalMap.delete(address));
+    entriesToMove.forEach(([address, entry]) => {
+      this.cellSignalMap.set(new Address(address).move([-1, 0]), entry);
     });
+    // update formulas
+    [...this.cellSignalMap.entries()].forEach(([_, { formula, references }]) => {
+      const cellsFromDeletedRow = references().filter((cell) => new Address(cell).getRow() === rowNumber);
+      const cellsToMove = references().filter((cell) => new Address(cell).getRow() > rowNumber);
+
+      if (cellsFromDeletedRow.length) {
+        const replaceCellsRegExp = new RegExp(cellsFromDeletedRow.map((cell) => `(${cell})`).join('|'), 'g');
+        formula.set(formula().replace(replaceCellsRegExp, '#REF!'));
+      }
+      cellsToMove.forEach((cell) => {
+        formula.set(formula().replace(new RegExp(cell, 'g'), new Address(cell).move([-1, 0])));
+      });
+    });
+    // remove row
     this.numberOfRows.set(this.numberOfRows() - 1);
   }
 

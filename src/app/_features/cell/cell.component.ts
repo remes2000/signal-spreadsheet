@@ -13,7 +13,7 @@ import { CellContextMenuComponent } from './cell-context-menu/cell-context-menu.
   styleUrl: './cell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CellComponent implements OnInit {
+export class CellComponent {
   private readonly cellService = inject(CellService);
   readonly address = input.required<string>();
   readonly isSelected = computed(() => this.address() === this.cellService.selectedCell());
@@ -24,22 +24,18 @@ export class CellComponent implements OnInit {
       this.cellInput().nativeElement.focus();
     }
   });
-  formula: WritableSignal<string>;
-  value: Signal<unknown>;
-  content: Signal<unknown>;
-
-  ngOnInit(): void {
-    this.formula = this.cellService.getFormulaSignal(this.address());
-    this.value = this.cellService.getValueSignal(this.address());
-    this.content = computed(() => this.isSelected() ? this.formula() : this.value()); 
-  }
+  readonly content = computed(() => this.isSelected()
+    ? this.cellService.getFormulaSignal(this.address())()
+    : this.cellService.getValueSignal(this.address())()
+  );
 
   markAsSelected() {
     this.cellService.selectedCell.set(this.address());
   }
 
   setFormula(value: string) {
-    this.formula.set(value);
+    const formula = this.cellService.getFormulaSignal(this.address());
+    formula.set(value);
   }
 
   apply() {

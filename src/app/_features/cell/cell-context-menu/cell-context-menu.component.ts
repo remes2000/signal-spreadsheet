@@ -16,6 +16,7 @@ export class CellContextMenuComponent {
   private readonly cellService = inject(CellService);
 
   deleteRow() {
+    this.cellService.unselect();
     this.cellService.deleteRow(new Address(this.address).getRow());
   }
 
