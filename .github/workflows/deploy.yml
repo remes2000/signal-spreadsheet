@@ -35,4 +35,4 @@ jobs:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }} # A token must be created to be able to deploy on the gh-pages branch
         run: |
           echo "DRY_RUN_OPTION=$DRY_RUN_OPTION"
-          npx angular-cli-ghpages --no-silent --name="Michał Nieruchalski" --email=nieruchalskimichal@gmail.com --branch=main --dir="${{env.TARGET_DIR}}" $DRY_RUN_OPTION --cname=spreadsheet.nieruchalski.dev
+          npx angular-cli-ghpages --no-silent --name="Michał Nieruchalski" --email=nieruchalskimichal@gmail.com --branch=gh-pages --dir="${{env.TARGET_DIR}}" $DRY_RUN_OPTION --cname=spreadsheet.nieruchalski.dev
