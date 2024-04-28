@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  TARGET_DIR: dist/browser
+  TARGET_DIR: dist/signal-spreadsheet
 
 jobs:
   build:
