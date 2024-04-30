@@ -6,8 +6,12 @@ export class Formula {
   constructor(private readonly formula: string,) {}
 
   execute(cellValueMap: Map<string, CellMapEntry>) {
+    if (this.formula === '') {
+      return '';
+    }
+
     if (!this.formula.startsWith('=')) {
-      return +this.formula;
+      return !isNaN(+this.formula) ? +this.formula : this.formula;
     }
 
     const formula = this.formula.slice(1);
