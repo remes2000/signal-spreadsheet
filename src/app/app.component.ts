@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CellService } from './_services/cell.service';
+import { CellService } from './_services/cell/cell.service';
 import { ColumnAliasPipe } from './_features/column-alias.pipe';
 import { CellComponent } from './_features/cell/cell.component';
 import { TopBarComponent } from './_features/top-bar/top-bar.component';
@@ -22,9 +22,10 @@ export class AppComponent {
   selectedRow = this.cellService.selectedRow;
 
   ngOnInit() {
-    this.cellService.getFormulaSignal('A1').set('=A3 + B3 + B1');
-    this.cellService.getFormulaSignal('A3').set('5');
-    this.cellService.getFormulaSignal('B3').set('10');
-    this.cellService.getFormulaSignal('B1').set('15');
+    const map = this.cellService.cellSignalMap();
+    map.get('A1').formula.set('=A3 + B3 + B1');
+    map.get('A3').formula.set('5');
+    map.get('B3').formula.set('10');
+    map.get('B1').formula.set('15');
   }
 }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, inject, viewChild } from '@angular/core';
-import { CellService } from '../../../../_services/cell.service';
+import { CellService } from '../../../../_services/cell/cell.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -13,20 +13,24 @@ import { FormsModule } from '@angular/forms';
 export class FormulaBarComponent {
   private readonly cellService = inject(CellService);
   private readonly formulaInput = viewChild<ElementRef>('formulaInput');
-  readonly formula = computed(() => {
+  private readonly selectedCellMapEntry = computed(() => {
     const selectedCell = this.cellService.selectedCell();
-    return selectedCell
-      ? this.cellService.getFormulaSignal(selectedCell)()
-      : '';
+    return selectedCell 
+      ? this.cellService.cellSignalMap().get(selectedCell)
+      : null;
+  });
+  readonly formula = computed(() => {
+    if (this.selectedCellMapEntry()) {
+      return this.selectedCellMapEntry().formula();
+    }
+    return '';
   });
   readonly mentionedCells = this.cellService.mentionedCells;
 
   setFormula(value: string) {
-    const selectedCell = this.cellService.selectedCell();
-    if (!selectedCell) {
-      return;
+    if (this.selectedCellMapEntry()) {
+      this.selectedCellMapEntry().formula.set(value);
     }
-    this.cellService.getFormulaSignal(selectedCell).set(value);
   }
 
   apply() {

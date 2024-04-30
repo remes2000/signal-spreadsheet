@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit, Signal, WritableSignal, computed, effect, inject, input, signal, viewChild } from '@angular/core';
-import { CellService } from '../../_services/cell.service';
+import { CellService } from '../../_services/cell/cell.service';
 import { FormsModule } from '@angular/forms';
 import { Address } from '../../_interfaces/address';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
@@ -18,23 +18,23 @@ export class CellComponent {
   readonly address = input.required<string>();
   readonly isSelected = computed(() => this.address() === this.cellService.selectedCell());
   readonly isMentioned = computed(() => this.cellService.mentionedCells().includes(this.address()));
+  readonly cellMapEntry = computed(() => this.cellService.cellSignalMap().get(this.address()));
+  readonly formula = computed(() => this.cellMapEntry().formula());
+  readonly value = computed(() => this.cellMapEntry().value());
   readonly cellInput = viewChild<ElementRef>('cellInput');
   readonly focusEffect = effect(() => {
     if (this.cellService.selectedCell() === this.address()) {
       this.cellInput().nativeElement.focus();
     }
   });
-  readonly content = computed(() => this.isSelected()
-    ? this.cellService.getFormulaSignal(this.address())()
-    : this.cellService.getValueSignal(this.address())()
-  );
+  readonly content = computed(() => this.isSelected() ? this.formula() : this.value());
 
   markAsSelected() {
     this.cellService.selectedCell.set(this.address());
   }
 
   setFormula(value: string) {
-    const formula = this.cellService.getFormulaSignal(this.address());
+    const formula = this.cellService.cellSignalMap().get(this.address()).formula;
     formula.set(value);
   }
 

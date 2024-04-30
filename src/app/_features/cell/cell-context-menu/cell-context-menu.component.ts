@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { ContextMenuModule } from '../../context-menu/context-menu.module';
-import { CellService } from '../../../_services/cell.service';
+import { CellService } from '../../../_services/cell/cell.service';
 import { Address } from '../../../_interfaces/address';
 
 @Component({
@@ -21,6 +21,7 @@ export class CellContextMenuComponent {
   }
 
   deleteColumn() {
+    this.cellService.unselect();
     this.cellService.deleteColumn(new Address(this.address).getColumn());
   }
 }

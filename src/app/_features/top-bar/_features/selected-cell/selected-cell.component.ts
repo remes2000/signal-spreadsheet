@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CellService } from '../../../../_services/cell.service';
+import { CellService } from '../../../../_services/cell/cell.service';
 
 @Component({
   selector: 'app-selected-cell',
