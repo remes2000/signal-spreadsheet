@@ -24,4 +24,14 @@ export class CellContextMenuComponent {
     this.cellService.unselect();
     this.cellService.deleteColumn(new Address(this.address).getColumn());
   }
+
+  insertRowAbove() {
+    this.cellService.unselect();
+    this.cellService.insertRowAbove(new Address(this.address).getRow());
+  }
+
+  insertColumnOnTheLeft() {
+    this.cellService.unselect();
+    this.cellService.insertColumnOnTheLeft(new Address(this.address).getColumn());
+  }
 }
