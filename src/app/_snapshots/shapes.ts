@@ -20,7 +20,7 @@ export const snapshot: Snapshot = {
     { address: 'A10', formula: 'Radius:', properties: { backgroundColor: '#ff7afb' } },
     { address: 'B10', formula: '5', properties: { backgroundColor: '#ff7afb' } },
     { address: 'A11', formula: 'Area:', properties: { backgroundColor: '#ff7afb', fontWeight: FontWeight.BOLD } },
-    { address: 'B11', formula: '=Math.PI * Math.pow(B10, 2)', properties: { backgroundColor: '#ff7afb', fontWeight: FontWeight.BOLD } },
+    { address: 'B11', formula: '=Math.round(Math.PI * Math.pow(B10, 2))', properties: { backgroundColor: '#ff7afb', fontWeight: FontWeight.BOLD } },
   ],
   numberOfColumns: 8,
   numberOfRows: 20,

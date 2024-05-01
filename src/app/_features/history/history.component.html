@@ -1,2 +1,4 @@
-<button [disabled]="!hasUndo()" (click)="undo()">Undo</button>
-<button [disabled]="!hasRedo()" (click)="redo()">Redo</button>
+<section class="history">
+  <button [disabled]="!hasUndo()" (click)="undo()">Undo</button>
+  <button [disabled]="!hasRedo()" (click)="redo()">Redo</button>
+</section>

@@ -20,3 +20,13 @@ table {
     }
   }
 }
+
+.toolbox {
+  padding: 0 25px;
+
+  .sub-toolbox {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+}
