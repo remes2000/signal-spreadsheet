@@ -1,6 +1,6 @@
 import { Signal, computed, signal } from "@angular/core";
 import { CellMapEntry } from "../../_interfaces";
-import { Formula } from "../formula";
+import { Formula } from "../formula/formula";
 import { CellProperties } from "../../_interfaces/cell-properties";
 
 export class CellMapEntryService {
