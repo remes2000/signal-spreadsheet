@@ -11,7 +11,7 @@ export class HistoryService {
   private readonly cellService = inject(CellService);
   private readonly snapshot = computed<Snapshot>(() => {
     const cellSnapshots = [...this.cellService.cellSignalMap().entries()]
-      .filter(([_, { formula, properties }]) => formula() !== '' || !!Object.keys(properties).length)
+      .filter(([_, { formula, properties }]) => formula() !== '' || !!Object.keys(properties()).length)
       .map(([cell, { formula, properties }]) => ({ address: cell, formula: formula(), properties: properties() }));
     return {
       cells: cellSnapshots,
