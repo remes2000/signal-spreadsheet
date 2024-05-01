@@ -3,6 +3,7 @@ import { CellMapEntry } from "../../../_interfaces";
 import { Column } from "../../../_interfaces/column";
 import { Address } from "../../../_interfaces/address";
 import { CellMapEntryService } from "../cell-map-entry.service";
+import { Formula } from "../../formula/formula";
 
 export class InsertColumnOnTheLeft {
   private readonly column: Column;
@@ -21,7 +22,7 @@ export class InsertColumnOnTheLeft {
     [...this.cellSignalMap().entries()].forEach(([_, { references, formula }]) => {
       const cellsToMove = references().filter((cell) => new Column(new Address(cell).getColumn()).getNumber() >= this.column.getNumber());
       cellsToMove.forEach((cell) => {
-        formula.set(formula().replace(new RegExp(cell, 'g'), new Address(cell).move([0, 1])));
+        formula.set(new Formula(formula()).replaceCell(cell, new Address(cell).move([0, 1])));
       });
     });
 

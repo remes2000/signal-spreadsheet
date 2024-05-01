@@ -2,6 +2,7 @@ import { WritableSignal } from "@angular/core";
 import { CellMapEntry } from "../../../_interfaces";
 import { Address } from "../../../_interfaces/address";
 import { Column } from "../../../_interfaces/column";
+import { Formula } from "../../formula/formula";
 
 export class DeleteColumn {
   private readonly column: Column;
@@ -22,12 +23,11 @@ export class DeleteColumn {
         new Column(new Address(cell).getColumn()).getNumber() > this.column.getNumber()
       );
 
-      if (cellsFromDeletedColumn.length) {
-        const replaceCellsRegExp = new RegExp(cellsFromDeletedColumn.map((cell) => `(${cell})`).join('|'), 'g');
-        formula.set(formula().replace(replaceCellsRegExp, '#REF!'));
-      }
+      cellsFromDeletedColumn.forEach((cell) => {
+        formula.set(new Formula(formula()).replaceCell(cell, '#REF!'));
+      });
       cellsToMove.forEach((cell) => {
-        formula.set(formula().replace(new RegExp(cell, 'g'), new Address(cell).move([0, -1])));
+        formula.set(new Formula(formula()).replaceCell(cell, new Address(cell).move([0, -1])));
       });
     });
 

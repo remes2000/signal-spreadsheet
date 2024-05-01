@@ -3,6 +3,7 @@ import { CellMapEntry } from "../../../_interfaces";
 import { Address } from "../../../_interfaces/address";
 import { CellMapEntryService } from "../cell-map-entry.service";
 import { Column } from "../../../_interfaces/column";
+import { Formula } from "../../formula/formula";
 
 export class InsertRowAbove {
   constructor(
@@ -17,7 +18,7 @@ export class InsertRowAbove {
     [...this.cellSignalMap().entries()].forEach(([_, { references, formula }]) => {
       const cellsToMove = references().filter((cell) => new Address(cell).getRow() >= this.rowNumber);
       cellsToMove.forEach((cell) => {
-        formula.set(formula().replace(new RegExp(cell, 'g'), new Address(cell).move([1, 0])));
+        formula.set(new Formula(formula()).replaceCell(cell, new Address(cell).move([1, 0])));
       });
     });
 

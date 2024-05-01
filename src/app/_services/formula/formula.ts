@@ -14,29 +14,15 @@ export class Formula {
       return !isNaN(+this.formula) ? +this.formula : this.formula;
     }
 
-
-    // (1) używamy evala, trzeba zamienić referencje na wywołania syngałów
     let script = this.formula;
     const references = this.getReferences();
     references.forEach((cell) => {
       const value = cellValueMap.get(cell).value();
-      script = script.replace(new RegExp(cell, 'g'), `${value === '' ? 0 : value}`);
+      script = new Formula(script).replaceCell(cell, `${value === '' ? 0 : value}`);
     });
-    console.log('script', script);
-
-    // const formula = this.formula.slice(1);
-    // let script = '';
-    // let previousMatch = {
-    //   0: '',
-    //   index: 0,
-    // };
-    // for (const match of formula.matchAll(this.cellAddressRegExp)) {
-    //   script += formula.slice(previousMatch.index + previousMatch[0].length, match.index) + cellValueMap.get(match[0]).value();
-    //   previousMatch = { 0: match[0], index: match.index };
-    // }
-    // console.log('script', script);
-    // return eval(script);
-    return null;
+    script = script.slice(1);
+    console.log(`Executing script: ${script}`);
+    return eval(script);
   }
 
   getReferences(): string[] {
@@ -48,6 +34,6 @@ export class Formula {
 
   replaceCell(cell: string, replacement: string): string {
     const newFormula = this.formula;
-    return newFormula;
+    return newFormula.replace(new RegExp(`(?<![A-Z])${cell}(?![0-9])`, 'g'), replacement);
   } 
 }

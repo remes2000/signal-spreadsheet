@@ -1,6 +1,7 @@
 import { WritableSignal } from "@angular/core";
 import { CellMapEntry } from "../../../_interfaces";
 import { Address } from "../../../_interfaces/address";
+import { Formula } from "../../formula/formula";
 
 export class DeleteRow {
   constructor(
@@ -15,12 +16,11 @@ export class DeleteRow {
       const cellsFromDeletedRow = references().filter((cell) => new Address(cell).getRow() === this.rowNumber);
       const cellsToMove = references().filter((cell) => new Address(cell).getRow() > this.rowNumber);
 
-      if (cellsFromDeletedRow.length) {
-        const replaceCellsRegExp = new RegExp(cellsFromDeletedRow.map((cell) => `(${cell})`).join('|'), 'g');
-        formula.set(formula().replace(replaceCellsRegExp, '#REF!'));
-      }
+      cellsFromDeletedRow.forEach((cell) => {
+        formula.set(new Formula(formula()).replaceCell(cell, '#REF!'));
+      });
       cellsToMove.forEach((cell) => {
-        formula.set(formula().replace(new RegExp(cell, 'g'), new Address(cell).move([-1, 0])));
+        formula.set(new Formula(formula()).replaceCell(cell, new Address(cell).move([-1, 0])));
       });
     });
 
