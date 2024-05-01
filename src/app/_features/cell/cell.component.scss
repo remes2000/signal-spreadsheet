@@ -9,9 +9,9 @@ input {
   }
 
   &.mentioned {
-    background-color: green;
-    border: 1px solid yellowgreen;
-    color: white;
+    background-color: green !important;
+    border: 1px solid yellowgreen !important;
+    color: white !important;
   }
 
   &:focus {
