@@ -1,3 +1,5 @@
+import { CellProperties } from "./cell-properties";
+
 export class Snapshot {
   cells: CellSnapshot[];
   numberOfColumns: number;
@@ -7,4 +9,5 @@ export class Snapshot {
 export class CellSnapshot {
   address: string;
   formula: string;
+  properties: Partial<CellProperties>;
 }

@@ -6,12 +6,13 @@ import { CellComponent } from './_features/cell/cell.component';
 import { TopBarComponent } from './_features/top-bar/top-bar.component';
 import { HistoryService } from './_services/history.service';
 import { HistoryComponent } from './_features/history/history.component';
+import { CellPropertiesComponent } from './_features/cell-properties/cell-properties.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   providers: [CellService, ColumnAliasPipe, HistoryService],
-  imports: [RouterOutlet, CellComponent, TopBarComponent, HistoryComponent],
+  imports: [RouterOutlet, CellComponent, TopBarComponent, HistoryComponent, CellPropertiesComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

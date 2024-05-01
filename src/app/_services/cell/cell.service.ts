@@ -62,14 +62,15 @@ export class CellService {
   applySnapshot(snapshot: Snapshot) {
     this._numberOfRows.set(snapshot.numberOfRows);
     this._numberOfColumns.set(snapshot.numberOfColumns);
-    const snapshotCellMap = new Map<string, string>(snapshot.cells.map(({ address, formula }) => [address, formula]));
+    const snapshotCellMap = new Map(snapshot.cells.map(({ address, formula, properties }) => [address, { formula, properties }]));
     const newMap = new Map<string, CellMapEntry>(
       this.columns().flatMap((columnAlias) =>
         this.rows().map((rowNumber) => {
           const address = `${columnAlias}${rowNumber}`;
+          const { formula, properties } = snapshotCellMap.get(address) ?? {};
           return [
             address,
-            CellMapEntryService.createEntry(this.cellSignalMap, snapshotCellMap.get(address) ?? '')
+            CellMapEntryService.createEntry(this.cellSignalMap, formula ?? '', properties ?? {})
           ];
         })
       )

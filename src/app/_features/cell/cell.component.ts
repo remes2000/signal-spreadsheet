@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Address } from '../../_interfaces/address';
 import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { CellContextMenuComponent } from './cell-context-menu/cell-context-menu.component';
+import { PropertiesDirective } from './properties.directive';
 
 @Component({
   selector: 'app-cell',
   standalone: true,
-  imports: [FormsModule, ContextMenuModule, CellContextMenuComponent],
+  imports: [FormsModule, ContextMenuModule, CellContextMenuComponent, PropertiesDirective],
   templateUrl: './cell.component.html',
   styleUrl: './cell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -28,6 +29,7 @@ export class CellComponent {
     }
   });
   readonly content = computed(() => this.isSelected() ? this.formula() : this.value());
+  readonly properties = computed(() => this.cellMapEntry().properties());
 
   markAsSelected() {
     this.cellService.selectedCell.set(this.address());

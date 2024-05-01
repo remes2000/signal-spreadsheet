@@ -1,0 +1,13 @@
+@if (properties(); as properties) {
+  <div>
+    <label for="font-weight">Font weight</label>
+    <select id="font-weight" [ngModel]="properties.fontWeight ?? FontWeight.REGULAR" (ngModelChange)="setProperty('fontWeight', $event)">
+      <option [value]="FontWeight.REGULAR">Regular</option>
+      <option [value]="FontWeight.BOLD">Bold</option>
+    </select>
+  </div>
+  <div>
+    <label for="background-color">Background color</label>
+    <input type="color" [ngModel]="properties.backgroundColor ?? '#ffffff'" (ngModelChange)="setProperty('backgroundColor', $event)" />
+  </div>
+}
